@@ -1,0 +1,4 @@
+GET /api/v1/upload/policy HTTP/1.1
+Host: localhost:3000
+
+Content-Type: "application/json"
