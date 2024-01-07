@@ -5,6 +5,11 @@ axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 let accessToken: string;
 
+const clearToken = () => {
+  localStorage.removeItem("accessToken");
+  accessToken = "";
+};
+
 const request = (options: any) =>
   new Promise((resolve, reject) => {
     if (!accessToken) {
@@ -21,10 +26,10 @@ const request = (options: any) =>
     options.headers["Access-Token"] = accessToken;
     options.headers["Content-Type"] = "application/json";
 
-    axios(options)
+    return axios(options)
       .then((res) => {
         let staRes = res.data;
-        if (staRes.code === "0") {
+        if (staRes.code === "200") {
           resolve(staRes.data);
         } else {
           Message.error(staRes.msg);
@@ -36,7 +41,9 @@ const request = (options: any) =>
         if (status === 401) {
           location.href = window.origin + "/#/login";
         } else {
-          Message.error(data?.msg || "请求失败");
+          if (!options.noTips) {
+            Message.error(data?.msg || "请求失败");
+          }
           reject(err);
         }
       });
@@ -54,7 +61,8 @@ export default {
     request({
       method: "POST",
       url,
-      body,
+      data: body,
       ...options,
     }),
+  clearToken,
 };

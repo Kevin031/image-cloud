@@ -18,7 +18,14 @@
       <Table :columns="columns" :data="store.fileList" row-key="id">
         <template #name="{ row }">
           <div class="file-content">
-            <img class="preview" :src="row.previewUrl" v-if="row.previewUrl" />
+            <Image
+              class="preview"
+              :src="row.previewUrl"
+              fit="contain"
+              preview
+              v-if="row.previewUrl"
+              :preview-list="[row.previewUrl]"
+            />
             <FileImagePreview v-else class="preview" :file="row.file" />
             <div class="name">{{ row.file.name }}</div>
           </div>

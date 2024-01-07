@@ -6,6 +6,12 @@ export default {
   },
 
   isLogin() {
-    return http.get("/api/v1/login/is-login");
+    return http.get(
+      "/api/v1/login/is-login",
+      {},
+      {
+        noTips: true,
+      }
+    );
   },
 };

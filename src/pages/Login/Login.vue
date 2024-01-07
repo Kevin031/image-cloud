@@ -3,11 +3,11 @@
     <div class="login-modal">
       <Login @on-submit="handleSubmit">
         <UserName name="username" />
-        <Password name="password" />
-        <div class="auto-login">
+        <Password name="password" :enter-to-submit="true" />
+        <!-- <div class="auto-login">
           <Checkbox v-model="autoLogin" size="large">自动登录</Checkbox>
           <a>忘记密码</a>
-        </div>
+        </div> -->
         <Submit />
       </Login>
     </div>
@@ -17,13 +17,28 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import API from "@/api/login";
+import { useRouter } from "vue-router";
 
 const autoLogin = ref(false);
+const router = useRouter();
+
+const jumpToEntry = () => {
+  router.push("/batch-upload");
+};
+
+API.isLogin().then((res: any) => {
+  if (res && res.login) {
+    jumpToEntry();
+  }
+});
+
 const handleSubmit = async (valid, { username, password }) => {
   if (valid) {
-    // console.log({ username, password });
-    const res = await API.login({ username, password });
-    console.log("res", res);
+    const res: any = await API.login({ username, password });
+    if (res && res.token) {
+      localStorage.setItem("accessToken", res.token);
+      jumpToEntry();
+    }
   }
 };
 </script>
