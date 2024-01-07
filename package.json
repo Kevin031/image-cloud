@@ -5,8 +5,23 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev",
-    "build": "vue-tsc && vite build --mode prod",
-    "preview": "vite preview"
+    "build": "vite build --mode prod",
+    "preview": "vite preview",
+    "check": "vue-tsc"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ],
+    "*.js?(x)": [
+      "prettier --parser=typescript --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
   },
   "config": {
     "dev": {
@@ -27,6 +42,8 @@
     "@types/node": "^20.9.5",
     "@vitejs/plugin-vue": "^4.2.3",
     "less": "^4.2.0",
+    "lint-staged": "^15.2.0",
+    "simple-git-hooks": "^2.9.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vue-tsc": "^1.8.5"
