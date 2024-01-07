@@ -13,10 +13,12 @@ const hideHeader = computed(() => {
 const menuList = [
   {
     title: "图库",
+    key: "library",
     path: "/library",
   },
   {
     title: "批量上传",
+    key: "batch",
     path: "/batch-upload",
   },
 ];
